@@ -1,0 +1,28 @@
+{% load field_updater_tags %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/field-updater.css' %}">
+<div class="field-updater" id="field-updater-{{ options.instance_id }}">
+    <a class="field-updater-display">{{ options.current_value }}</a>
+    <div>
+        <div class="field-updater-inputs" style="position: relative;">
+            <input type="text" class="field-updater-input">
+            <span class="field-updater-clear"></span>
+            <button type="submit" class="field-updater-submit">
+                &#10003;
+            </button>
+            <button type="button" class="field-updater-cancel">
+                &#10005;
+            </button>
+        </div>
+    </div>
+</div>
+{% with "json-"|addstr:options.instance_id as jsonid %}
+{{ options|json_script:jsonid }}
+<script>
+    (async () => {
+        const options = JSON.parse(document.getElementById('{{jsonid}}').textContent);
+        let { default:initialise } = await import("{% static 'js/field-updater.js' %}");
+        initialise(options);
+    })()
+</script>
+{% endwith %}
