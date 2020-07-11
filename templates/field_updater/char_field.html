@@ -1,10 +1,11 @@
 {% load field_updater_tags %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/field-updater.css' %}">
-<div class="field-updater" id="field-updater-{{ options.instance_id }}">
-    <a class="field-updater-display">{{ options.current_value }}</a>
+<div class="field-updater" id="{{ options.prefix }}-{{ options.instance_id }}">
+    <a class="{{ options.prefix }}-display">{{ options.current_value }}</a>
+    <span class="{{ options.prefix }}-error" style="display:none"></span>
     <div>
-        <div class="field-updater-inputs" style="position: relative;">
+        <div class="field-updater-inputs" style="position: relative;display: none;">
             <input type="text" class="field-updater-input">
             <span class="field-updater-clear"></span>
             <button type="submit" class="field-updater-submit">
@@ -15,6 +16,7 @@
             </button>
         </div>
     </div>
+    <img style="display:none;" class="{{ options.prefix }}-loader" src="{% static 'img/loading.gif' %}" />
 </div>
 {% with "json-"|addstr:options.instance_id as jsonid %}
 {{ options|json_script:jsonid }}
