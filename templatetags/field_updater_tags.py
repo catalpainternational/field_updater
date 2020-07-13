@@ -15,7 +15,7 @@ def field_updater(
     import pudb;pudb.set_trace()
 
     attribute_name = kwargs.pop("attribute_name", "value")
-    submit_url = reverse(kwargs.pop("url_name", "example_submit"), kwargs=kwargs)
+    submit_url = kwargs.pop("submit_url", reverse("example_submit"))
 
     instance_id = uuid.uuid4()
     return {
