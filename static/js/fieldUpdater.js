@@ -30,6 +30,7 @@ export default function initialise(options) {
         inputs.style.display = 'none';
         loader.style.display = 'block';
 
+        // TODO: support for different submission methods
         let { default:update } = await import("./ajaxUpdate.js");
 
         const data = {};

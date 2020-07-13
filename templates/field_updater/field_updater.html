@@ -1,6 +1,16 @@
 {% load field_updater_tags %}
 {% load static %}
+
+{% comment %} 
+You can override the css by providing this file in your project
+{% endcomment %}
 <link rel="stylesheet" href="{% static 'css/fieldUpdater.css' %}">
+
+
+{% comment %} 
+TODO: try to separate out the individual components for overriding
+TODO: consider other input types, textarea etc...
+{% endcomment %}
 <div class="{{ options.prefix }}" id="{{ options.prefix }}-{{ options.instance_id }}">
     <a class="{{ options.prefix }}-display">{{ options.current_value }}</a>
     <span class="{{ options.prefix }}-error" style="display:none"></span>
@@ -16,15 +26,25 @@
             </button>
         </div>
     </div>
+    {% comment %} 
+    You can override the loader gif by providing this file in your project
+    {% endcomment %}
     <img style="display:none;" class="{{ options.prefix }}-loader" src="{% static 'img/loading.gif' %}" />
 </div>
+
 {% with "json-"|addstr:options.instance_id as jsonid %}
+
 {{ options|json_script:jsonid }}
 <script>
     (async () => {
         const options = JSON.parse(document.getElementById('{{jsonid}}').textContent);
+
+        {% comment %} 
+        You can override the fieldUpdate code by providing this file in your project
+        {% endcomment %}
         let { default:initialise } = await import("{% static 'js/fieldUpdater.js' %}");
         initialise(options);
     })()
 </script>
+
 {% endwith %}

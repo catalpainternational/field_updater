@@ -4,17 +4,18 @@ from django.urls import reverse
 
 register = template.Library()
 
-@register.inclusion_tag('field_updater/char_field.html', takes_context=True)
+@register.inclusion_tag('field_updater/field_updater.html')
 def field_updater(
-    context,  # access to page context
     current_value='',  # initial value,
-    prefix='field-updater',  # prefix used for id and class coping value,
+    prefix='field-updater',  # prefix used for id and class scoping,
+    attribute_name='attribute_name',  # prefix used for id and class coping value,
     **kwargs):
-    ''' Renders a value, on click it will render a form, on submit  update that value by AJAX '''
+    ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
 
-    attribute_name = kwargs.pop("attribute_name", "value")
+    # url that the ajax will POST the change to
     submit_url = kwargs.pop("submit_url", reverse("example_submit"))
 
+    # random uuid to scope the DOM elements
     instance_id = uuid.uuid4()
     return {
         'options': {

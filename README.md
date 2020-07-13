@@ -10,6 +10,7 @@ Using Djangom and raw js to begin with, server side will be provided by individu
 ### Django template tag
 1. Include the `field_update` app in your django settings INSTALLED_APPS
 2. Identify the url you wish to POST updates to
+4. Ensure you have csrf_token cookie present by using `ensure_csrf_cookie` decorator on your view
 3. load the field updater template tags library in the template you wish to place the updater 
 
 `{% load filed_updater_tags %}`
