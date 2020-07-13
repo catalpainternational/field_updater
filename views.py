@@ -9,6 +9,6 @@ class ExampleView(TemplateView):
     template_name = "field_updater/example.html"
 
 
-def submit(request):
+def submit(request, *args, **kwargs):
     return HttpResponse()
 
