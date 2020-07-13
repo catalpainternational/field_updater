@@ -6,23 +6,23 @@ register = template.Library()
 
 @register.inclusion_tag('field_updater/char_field.html', takes_context=True)
 def field_updater(
-    context=None,  # access to page context
+    context,  # access to page context
     current_value='',  # initial value,
     prefix='field-updater',  # prefix used for id and class coping value,
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit  update that value by AJAX '''
 
     submit_url = reverse(kwargs.pop("url_name", "example_submit"))
-    submit_method = kwargs.pop("submit_method", "POST")
+    attribute_name = kwargs.pop("attribute_name", "value")
 
     instance_id = uuid.uuid4()
     return {
         'options': {
             'instance_id': instance_id,
-            'prefix': prefix,
             'current_value': current_value,
+            'attribute_name': attribute_name,
             'submit_url': submit_url,
-            'submit_method': submit_method,
+            'prefix': prefix,
         },
     }
 

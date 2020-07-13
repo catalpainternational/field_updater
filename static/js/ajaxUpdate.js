@@ -3,11 +3,15 @@ export default async function ajaxUpdate(options, data) {
     // make our request to udpate the value
     return new Promise((resolve, reject) => {
 
-        data = new FormData();
+        const body = new FormData();
+        Object.keys(data).forEach((key) => {
+            body.set(key, data[key]);
+        });
+
         fetch(options.submit_url,
             {
-                method: options.submit_method,
-                body: data,
+                method: 'POST',
+                body: body,
                 headers: { 
                     'X-CSRFToken': getCsrfToken()
                 },

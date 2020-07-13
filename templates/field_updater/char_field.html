@@ -1,17 +1,17 @@
 {% load field_updater_tags %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/fieldUpdater.css' %}">
-<div class="field-updater" id="{{ options.prefix }}-{{ options.instance_id }}">
+<div class="{{ options.prefix }}" id="{{ options.prefix }}-{{ options.instance_id }}">
     <a class="{{ options.prefix }}-display">{{ options.current_value }}</a>
     <span class="{{ options.prefix }}-error" style="display:none"></span>
     <div>
-        <div class="field-updater-inputs" style="position: relative;display: none;">
-            <input type="text" class="field-updater-input">
-            <span class="field-updater-clear"></span>
-            <button type="submit" class="field-updater-submit">
+        <div class="{{ options.prefix }}-inputs" style="position: relative;display: none;">
+            <input type="text" class="{{ options.prefix }}-input">
+            <span class="{{ options.prefix }}-clear"></span>
+            <button type="submit" class="{{ options.prefix }}-submit">
                 &#10003;
             </button>
-            <button type="button" class="field-updater-cancel">
+            <button type="button" class="{{ options.prefix }}-cancel">
                 &#10005;
             </button>
         </div>

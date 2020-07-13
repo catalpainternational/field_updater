@@ -32,10 +32,9 @@ export default function initialise(options) {
 
         let { default:update } = await import("./ajaxUpdate.js");
 
-        // make our request to udpate the value
-        const data = {
-            'ff': input.value,
-        };
+        const data = {};
+        data[options.attribute_name] = input.value;
+
         update(
             options,
             data
