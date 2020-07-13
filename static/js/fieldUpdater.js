@@ -25,32 +25,29 @@ export default function initialise(options) {
         inputs.style.display = 'none';
         display.style.display = 'block';
     };
-    submit.onclick = function(e) {
-        // hide the inputs
+    submit.onclick = async function(e) {
+        // hide the inputs, show the loader
         inputs.style.display = 'none';
-        // show the loader
         loader.style.display = 'block';
 
+        let { default:update } = await import("./ajaxUpdate.js");
+
         // make our request to udpate the value
-        fetch('/example_submit').then(function(response) {
-            // function that will run on promise resolve;
-            if( response.ok ) {
-                display.innerHTML = input.value;
-            } else {
-                error.innerHTML = response.statusText;
-                error.style.display = 'block';
-            }
-        }).catch(function(err) {
-            // function that will run on promise reject;
+        const data = {
+            'ff': input.value,
+        };
+        update(
+            options,
+            data
+        ).then(() => {
+            display.innerHTML = input.value;
+        }).catch((err) => {
             error.innerHTML = err;
             error.style.display = 'block';
-        }).finally(function() {
-            // function that will run  always once the promise has resolved or rejected
+        }).finally(() => {
             inputs.style.display = 'none';
             display.style.display = 'block';
             loader.style.display = 'none';
-
         });
-
     };
 };

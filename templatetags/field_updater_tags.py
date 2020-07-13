@@ -12,12 +12,17 @@ def field_updater(
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit  update that value by AJAX '''
 
+    submit_url = reverse(kwargs.pop("url_name", "example_submit"))
+    submit_method = kwargs.pop("submit_method", "POST")
+
     instance_id = uuid.uuid4()
     return {
         'options': {
             'instance_id': instance_id,
             'prefix': prefix,
             'current_value': current_value,
+            'submit_url': submit_url,
+            'submit_method': submit_method,
         },
     }
 
