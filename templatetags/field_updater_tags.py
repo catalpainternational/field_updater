@@ -12,8 +12,6 @@ def field_updater(
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit  update that value by AJAX '''
 
-    import pudb;pudb.set_trace()
-
     attribute_name = kwargs.pop("attribute_name", "value")
     submit_url = kwargs.pop("submit_url", reverse("example_submit"))
 
