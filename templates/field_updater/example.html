@@ -2,6 +2,6 @@
 <html>
     <body>
         {% url 'example_submit' name="peter" as submit_url %}
-        {% field_updater 'test' submit_url=submit_url|add:"?querykey="|add:"queryval" attribute_name='override'  name="peter" %}
+        {% field_updater override=None submit_url=submit_url|add:"?querykey="|add:"queryval" allow_delete=True %}
     </body>
 </html>

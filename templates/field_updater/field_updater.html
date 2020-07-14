@@ -12,24 +12,25 @@ TODO: try to separate out the individual components for overriding
 TODO: consider other input types, textarea etc...
 {% endcomment %}
 <div class="{{ options.prefix }}" id="{{ options.prefix }}-{{ options.instance_id }}">
-    <a class="{{ options.prefix }}-display">{{ options.current_value }}</a>
-    <span class="{{ options.prefix }}-error" style="display:none"></span>
-    <div>
-        <div class="{{ options.prefix }}-inputs" style="position: relative;display: none;">
-            <input type="text" class="{{ options.prefix }}-input">
-            <span class="{{ options.prefix }}-clear"></span>
-            <button type="submit" class="{{ options.prefix }}-submit">
-                &#10003;
-            </button>
-            <button type="button" class="{{ options.prefix }}-cancel">
-                &#10005;
-            </button>
-        </div>
+    <a class="{{ options.prefix }}-display"></a>
+    <button type="button" class="{{ options.prefix }}-delete">
+        &#9988;
+    </button>
+    <span class="{{ options.prefix }}-error" hidden></span>
+    <div class="{{ options.prefix }}-inputs" hidden>
+        <input type="text" class="{{ options.prefix }}-input">
+        <span class="{{ options.prefix }}-clear"></span>
+        <button type="submit" class="{{ options.prefix }}-submit">
+            &#10003;
+        </button>
+        <button type="button" class="{{ options.prefix }}-cancel">
+            &#10005;
+        </button>
     </div>
     {% comment %} 
     You can override the loader gif by providing this file in your project
     {% endcomment %}
-    <img style="display:none;" class="{{ options.prefix }}-loader" src="{% static 'img/loading.gif' %}" />
+    <img class="{{ options.prefix }}-loader" src="{% static 'img/loading.gif' %}" hidden/>
 </div>
 
 {% with "json-"|addstr:options.instance_id as jsonid %}
