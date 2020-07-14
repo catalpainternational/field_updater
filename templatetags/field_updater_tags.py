@@ -6,22 +6,27 @@ register = template.Library()
 
 @register.inclusion_tag('field_updater/field_updater.html')
 def field_updater(
-    current_value='',  # initial value,
+    submit_url, # url that the ajax will POST the create to
     prefix='field-updater',  # prefix used for id and class scoping,
-    attribute_name='attribute_name',  # prefix used for id and class coping value,
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
 
-    # url that the ajax will POST the change to
-    submit_url = kwargs.pop("submit_url", reverse("example_submit"))
+    # delete will be allowed only if requested
+    allow_delete = kwargs.pop("allow_delete", False)
+    #  any extra attributes will be editable, currently we only support one
+    try:
+        attribute_name, attribute_value = kwargs.popitem()
+    except KeyError:
+        raise AttributeError('This tag requires a key value attribute describing the field to be updated')
 
     # random uuid to scope the DOM elements
     instance_id = uuid.uuid4()
     return {
         'options': {
             'instance_id': instance_id,
-            'current_value': current_value,
             'attribute_name': attribute_name,
+            'attribute_value': attribute_value,
+            'allow_delete': allow_delete,
             'submit_url': submit_url,
             'prefix': prefix,
         },
