@@ -1,6 +1,6 @@
 export default function initialise(options) {
     // gets a reference to the containing element for the component
-    const containerElement = document.querySelector('#' + options.prefix + '-' + options.instance_id);
+    const containerElement = document.getElementById(options.prefix + '-' + options.instance_id);
 
     // gets references to internal elements
     const displayElement = containerElement.querySelector('.' + options.prefix + '-display');
