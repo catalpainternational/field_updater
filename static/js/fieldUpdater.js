@@ -2,6 +2,7 @@ export default function initialise(options) {
     // gets a reference to the containing element for the component
     const containerElement = document.querySelector('#' + options.prefix + '-' + options.instance_id);
 
+    // gets references to internal elements
     const displayElement = containerElement.querySelector('.' + options.prefix + '-display');
     const inputsElement = containerElement.querySelector('.' + options.prefix + '-inputs');
     const inputElement = containerElement.querySelector('.' + options.prefix + '-input');
@@ -14,31 +15,35 @@ export default function initialise(options) {
 
     let current_value = options.attribute_value;
 
+    // set the display back to default
     function updateDisplay() {
         deleteElement.hidden = !options.allow_delete || current_value === null;
         displayElement.innerHTML = current_value || 'empty';
     };
     updateDisplay();
 
+    // what happens when the default value display is clicked
     displayElement.onclick = function(e) {
-        inputsElement.hidden = false;
-        displayElement.hidden = true;;
         inputElement.value = current_value;
-        errorElement.hidden = true;;
+        inputsElement.hidden = false;
+        displayElement.hidden = true;
+        errorElement.hidden = true;
         deleteElement.hidden = true;
     };
+
+    // what happens whaen the edit cancel button is clicked
     cancelElement.onclick = function(e) {
         inputsElement.hidden = true;
         displayElement.hidden = false;
     };
     
-    function submit(action) {
 
+    // handler to encapsulate an async submission action ( update or delete )
+    function submit(action) {
         inputsElement.hidden = true;
         loaderElement.hidden = false;
 
         action().then(() => {
-            current_value = inputElement.value;
             updateDisplay();
         }).catch((err) => {
             errorElement.innerHTML = err;
@@ -50,16 +55,27 @@ export default function initialise(options) {
         });
     }
 
+    // what happens when the delete button is clicked
     deleteElement.onclick = async function(e) {
         let { ajaxDelete } = await import("./ajaxUpdate.js");
-        submit(() => { return ajaxDelete(options); });
+        submit(() => { 
+            return ajaxDelete(options).then(() => {
+                current_value = null;
+            }); 
+        });
     };
+
+    // what happens when the update button is clicked
     submitElement.onclick = async function(e) {
-        // hide the inputs, show the loader
         let { ajaxUpdate } = await import("./ajaxUpdate.js");
 
         const data = {};
         data[options.attribute_name] = inputElement.value;
-        submit(() => { return ajaxUpdate(data, options); });
+
+        submit(() => { 
+            return ajaxUpdate(data, options).then(() => {
+                current_value = inputElement.value;
+            }); 
+        });
     };
 };
