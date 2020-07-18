@@ -9,19 +9,25 @@ Using Django and raw js to begin with, server side will be provided by individua
 
 ### Django template tag
 1. Include the `field_update` app in your django settings INSTALLED_APPS
-2. Identify the url you wish to POST updates to, the url should uniquely identify the object
 4. Ensure you have csrf_token cookie present by using `ensure_csrf_cookie` decorator on your view
+2. Identify the submit view and url you wish to send updates to
 3. load the field updater template tags library in the template you wish to place the updater 
 
 `{% load field_updater_tags %}`
 
-4. Use the field updater template tag passing the initial value to display, the url to POST to, and the attribute name and initial value as a key value pair
+4. Use the field updater template tag passing the url to request to, and the attribute name and initial value as a key value pair
 
-`{% field_updater submit_url=SUBMIT_URL allow_delete=True attribute_name=ATTRIBUTE_VALUE %}`
+{% url 'submit_url_name' some_arg=some_value as submit_url %}
 
-The initial value will be displayed, on clicking the display an update text input will show, edit the value and click the tick, and a POST request will be submitted to the SUBMIT_URL with formencoded data of ATTRIBUTE_NAME=NEW_VALUE which can be read through the django request.POST QueryDict 
-If you specify `allow_delete=True` the componenet will allow the user to click to send a DELETE request to the server, when the current value is not `null`
+`{% field_updater submit_url=submit_url attribute_name=attribute_value %}`
+`{% field_updater submit_url=submit_url attribute_name=attribute_value  allow_delete=True %}`
 
+The initial value will be displayed, on clicking the display an update text input will show, edit the value and click the tick, and a POST request will be submitted to `submit_url with formencoded data of `attribute_name=attribute_value`
+
+If you specify `allow_delete=True` it will allow the user to click to send a DELETE request when the current value is not `null`
+
+If you specify `etag=some_etag_value` it will send that value as an `If-Match` header
+If you specify `last_modified=some_http_date` it will send that value as 'If-Unmodified-Since' header
 
 ## Possible future
 
@@ -31,5 +37,5 @@ Send more key=value pairs through to the tag for update together
 Maybe allowing the js component to take a form definition for rendering
 ### Validation handling
 Adding simple configurable validation
-### Riot componenet
-Adding a riot componenet to use where django is not present
+### Riot component
+Adding a riot component to use where django is not present
