@@ -7,11 +7,11 @@ export default class AjaxUpdater {
      * returns a promise that will resolve if the action is successful, and reject if not
      *
      * options:
-     * url           - the url to communicate with ( will update to Location header value )
-     * etag          - the value of the If-Match header to send, use false to disable
-     * lastModified  - the value of the If-Unmofified-Since header to send, use false to disable
-
+     * url                - the url to communicate with ( will update to Location header value )
+     * ifMatch            - the value of the If-Match header to send, use false to disable
+     * ifUnmodifiedSince  - the value of the If-Unmodified-Since header to send, use false to disable
      */
+
     constructor(options) {
         this.options = Object.assign({}, options);
     }   
@@ -41,11 +41,11 @@ export default class AjaxUpdater {
             let headers = {
                 'X-CSRFToken': getCsrfToken(),
             }
-            if(this.options.etag) {
-                headers['If-Match'] = `"${this.options.etag}"`;
+            if(this.options.ifMatch) {
+                headers['If-Match'] = `"${this.options.ifMatch}"`;
             }
-            if(this.options.lastModified) {
-                headers['If-Unmodified-Since'] = this.options.lastModified;
+            if(this.options.ifUnmodifiedSince) {
+                headers['If-Unmodified-Since'] = this.options.ifUnmodifiedSince;
             }
             fetch(
                 this.options.url,
@@ -66,11 +66,11 @@ export default class AjaxUpdater {
     }
 
     updateFetchOptions(headers) {
-        if (headers.has('ETag') && this.options.etag !== false) {
-            this.options.etag = headers.get('ETag');
+        if (headers.has('ETag') && this.options.ifMatch !== false) {
+            this.options.ifMatch = headers.get('ETag');
         }
-        if (headers.has('Last-Modified') && this.options.lastModified !== false) {
-            this.options.lastModified = headers.get('Last-Modified');
+        if (headers.has('Last-Modified') && this.options.ifUnmodifiedSince !== false) {
+            this.options.ifUnmodifiedSince = headers.get('Last-Modified');
         }
         if (headers.has('Location')) {
             this.options.url = headers.get('Location');

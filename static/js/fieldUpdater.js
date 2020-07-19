@@ -17,8 +17,8 @@ export default async function initialise(options) {
     let current_value = options.attribute_value;
     const storage = new StorageHandler({
         url: options.submit_url,
-        etag: options.etag,
-        lastModified: options.last_modified,
+        ifUnmodifiedSince: options.if_unmodified_since,
+        ifMatch: options.if_match,
     });
 
     // set the display back to default

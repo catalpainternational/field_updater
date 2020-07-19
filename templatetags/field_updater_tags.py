@@ -6,10 +6,10 @@ register = template.Library()
 
 @register.inclusion_tag('field_updater/field_updater.html')
 def field_updater(
-    submit_url,              # url that the ajax will POST the create to
-    prefix='field-updater',  # prefix used for id and class scoping,
-    etag=False,              # If-Match header will be sent with this value, unless False
-    last_modified=False,     # If-Unmodified-Since header will be sent with this value unless False
+    submit_url,                   # url that the ajax will POST the create to
+    prefix='field-updater',       # prefix used for id and class scoping,
+    if_match=False,               # If-Match header will be sent with this value, unless False
+    if_unmodified_since=False,    # If-Unmodified-Since header will be sent with this value unless False
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
 
@@ -30,8 +30,8 @@ def field_updater(
             'attribute_value': attribute_value,
             'allow_delete': allow_delete,
             'submit_url': submit_url,
-            'etag': etag,
-            'last_modified': last_modified,
+            'if_match': if_match,
+            'if_unmodified_since': if_unmodified_since,
             'prefix': prefix,
         },
     }
