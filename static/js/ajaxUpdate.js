@@ -9,7 +9,7 @@ export default class AjaxUpdater {
      * options:
      * url           - the url to communicate with ( will update to Location header value )
      * etag          - the value of the If-Match header to send, use false to disable
-     * lastModified  - the value of the If-Match header to send, use false to disable
+     * lastModified  - the value of the If-Unmofified-Since header to send, use false to disable
 
      */
     constructor(options) {
