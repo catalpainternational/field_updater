@@ -7,11 +7,8 @@ export async function ajaxDelete(options) {
 export async function ajaxUpdate(data, options) {
     const fetchInit = {
         method: 'POST',
-        body: new FormData(),
+        body: BODY_ENCODE_FUNCTIONS[options.bodyEncode](data),
     };
-    Object.keys(data).forEach((key) => {
-        fetchInit.body.set(key, data[key]);
-    });
     return ajax(options.submit_url, fetchInit);    
 }
 
@@ -22,7 +19,11 @@ async function ajax(url, fetchInit) {
         
         fetch(
             url,
-            Object.assign({ headers: {'X-CSRFToken': getCsrfToken()}}, fetchInit)
+            Object.assign({
+                headers: {
+                    'X-CSRFToken': getCsrfToken(),
+                }
+            }, fetchInit)
         ).then(function(response) {
             // function that will run on promise resolve;
             if(response.ok) {
@@ -34,4 +35,21 @@ async function ajax(url, fetchInit) {
             reject(err.message, err)
         });
     });
+}
+
+function urlEncode(data) {
+   return new URLSearchParams(data);
+}
+
+function formEncode(data) {
+    let formData = new FormData();
+    Object.keys(data).forEach((key) => {
+        formData.set(key, data[key]);
+    });
+    return formData;
+}
+
+const BODY_ENCODE_FUNCTIONS = {
+    'urlencoded': urlEncode,
+    'form-data': formEncode,
 }
