@@ -72,7 +72,7 @@ export default function initialise(options) {
     // what happens when the update button is clicked
     submitElement.onclick = () => create_or_update(inputElement.value);
 
-    // waht happens when a key is hit in the input
+    // what happens when a key is hit in the input
     inputElement.onkeyup = function(e) {
         if (e.key === 'Enter') create_or_update(inputElement.value);
     }
@@ -90,4 +90,3 @@ export default function initialise(options) {
         });
     }
 };
-
