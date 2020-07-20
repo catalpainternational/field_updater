@@ -8,6 +8,7 @@ register = template.Library()
 def field_updater(
     submit_url, # url that the ajax will POST the create to
     prefix='field-updater',  # prefix used for id and class scoping,
+    body_encode='form-data',  # the content encoding for POST bodies
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
 
@@ -19,6 +20,9 @@ def field_updater(
     except KeyError:
         raise AttributeError('This tag requires a key value attribute describing the field to be updated')
 
+    if body_encode not in ['urlencoded', 'form-data']:
+        raise AttributeError('The body_encode must be urlencoded or form-data')
+
     # random uuid to scope the DOM elements
     instance_id = uuid.uuid4()
     return {
@@ -28,6 +32,7 @@ def field_updater(
             'attribute_value': attribute_value,
             'allow_delete': allow_delete,
             'submit_url': submit_url,
+            'bodyEncode': body_encode,
             'prefix': prefix,
         },
     }
