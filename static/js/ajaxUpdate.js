@@ -22,7 +22,12 @@ async function ajax(url, fetchInit) {
         
         fetch(
             url,
-            Object.assign({ headers: {'X-CSRFToken': getCsrfToken()}}, fetchInit)
+            Object.assign({
+                headers: {
+                    'X-CSRFToken': getCsrfToken(),
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }, fetchInit)
         ).then(function(response) {
             // function that will run on promise resolve;
             if(response.ok) {
