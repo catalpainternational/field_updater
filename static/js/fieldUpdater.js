@@ -24,11 +24,15 @@ export default function initialise(options) {
 
     // what happens when the default value display is clicked
     displayElement.onclick = function(e) {
+        // show and update the input elements
         inputElement.value = current_value;
         inputsElement.hidden = false;
+        // hide the display elements
         displayElement.hidden = true;
         errorElement.hidden = true;
         deleteElement.hidden = true;
+        // focus the input
+        inputElement.focus();
     };
 
     // what happens whaen the edit cancel button is clicked
@@ -66,16 +70,23 @@ export default function initialise(options) {
     };
 
     // what happens when the update button is clicked
-    submitElement.onclick = async function(e) {
+    submitElement.onclick = () => create_or_update(inputElement.value);
+
+    // what happens when a key is hit in the input
+    inputElement.onkeyup = function(e) {
+        if (e.key === 'Enter') create_or_update(inputElement.value);
+    }
+
+    async function create_or_update(newValue) {
         let { ajaxUpdate } = await import("./ajaxUpdate.js");
 
         const data = {};
-        data[options.attribute_name] = inputElement.value;
+        data[options.attribute_name] = newValue;
 
         submit(() => { 
             return ajaxUpdate(data, options).then(() => {
-                current_value = inputElement.value;
+                current_value = newValue;
             }); 
         });
-    };
+    }
 };
