@@ -10,6 +10,7 @@ def field_updater(
     prefix='field-updater',       # prefix used for id and class scoping,
     if_match=False,               # If-Match header will be sent with this value, unless False
     if_unmodified_since=False,    # If-Unmodified-Since header will be sent with this value unless False
+    body_encode='form-data',      # the content encoding for POST bodies
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
 
@@ -20,6 +21,9 @@ def field_updater(
         attribute_name, attribute_value = kwargs.popitem()
     except KeyError:
         raise AttributeError('This tag requires a key value attribute describing the field to be updated')
+
+    if body_encode not in ['urlencoded', 'form-data']:
+        raise AttributeError('The body_encode must be urlencoded or form-data')
 
     # random uuid to scope the DOM elements
     instance_id = uuid.uuid4()
@@ -32,6 +36,7 @@ def field_updater(
             'submit_url': submit_url,
             'if_match': if_match,
             'if_unmodified_since': if_unmodified_since,
+            'bodyEncode': body_encode,
             'prefix': prefix,
         },
     }

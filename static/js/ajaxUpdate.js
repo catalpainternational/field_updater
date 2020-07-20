@@ -10,6 +10,7 @@ export default class AjaxUpdater {
      * url                - the url to communicate with ( will update to Location header value )
      * ifMatch            - the value of the If-Match header to send, use false to disable
      * ifUnmodifiedSince  - the value of the If-Unmodified-Since header to send, use false to disable
+     * bodyEncode         - the method of encoding the body (urlencoded or form-data
      */
 
     constructor(options) {
@@ -26,7 +27,7 @@ export default class AjaxUpdater {
     async updateOrCreate(data) {
         const fetchInit = {
             method: 'POST',
-            body: new FormData(),
+            body: BODY_ENCODE_FUNCTIONS[this.options.bodyEncode](data),
         };
         Object.keys(data).forEach((key) => {
             fetchInit.body.set(key, data[key]);
@@ -76,4 +77,21 @@ export default class AjaxUpdater {
             this.options.url = headers.get('Location');
         }
     }
+}
+
+function urlEncode(data) {
+   return new URLSearchParams(data);
+}
+
+function formEncode(data) {
+    let formData = new FormData();
+    Object.keys(data).forEach((key) => {
+        formData.set(key, data[key]);
+    });
+    return formData;
+}
+
+const BODY_ENCODE_FUNCTIONS = {
+    'urlencoded': urlEncode,
+    'form-data': formEncode,
 }

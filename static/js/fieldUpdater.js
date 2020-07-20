@@ -19,6 +19,7 @@ export default async function initialise(options) {
         url: options.submit_url,
         ifUnmodifiedSince: options.if_unmodified_since,
         ifMatch: options.if_match,
+        bodyEncode: options.bodyEncode,
     });
 
     // set the display back to default
@@ -76,7 +77,7 @@ export default async function initialise(options) {
     // what happens when the update button is clicked
     submitElement.onclick = () => updateOrCreate(inputElement.value);
 
-    // waht happens when a key is hit in the input
+    // what happens when a key is hit in the input
     inputElement.onkeyup = function(e) {
         if (e.key === 'Enter') updateOrCreate(inputElement.value);
     }
@@ -94,4 +95,3 @@ export default async function initialise(options) {
         });
     }
 };
-
