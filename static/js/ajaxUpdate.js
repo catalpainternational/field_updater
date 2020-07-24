@@ -6,7 +6,6 @@ export function ajaxDelete(options) {
         headers: {
             'X-CSRFToken': getCsrfToken(),
             'Accept': options.headersAccept,
-            'Content-Type': options.headersContentType,
         },
     };
     return ajax(options.submit_url, fetchInit);
@@ -18,7 +17,6 @@ export function ajaxUpdate(data, options) {
         headers: {
             'X-CSRFToken': getCsrfToken(),
             'Accept': options.headersAccept,
-            'Content-Type': options.headersContentType,
         },
         body: BODY_ENCODE_FUNCTIONS[options.bodyEncode](data),
     };

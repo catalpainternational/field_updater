@@ -10,7 +10,6 @@ def field_updater(
     prefix='field-updater',  # prefix used for id and class scoping,
     body_encode='form-data',  # the content encoding for POST bodies
     headers_accept='application/json',
-    headers_content_type='application/x-www-form-urlencoded',
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
 
@@ -37,7 +36,6 @@ def field_updater(
             'bodyEncode': body_encode,
             'prefix': prefix,
             'headersAccept': headers_accept,
-            'headersContentType': headers_content_type,
         },
     }
 
