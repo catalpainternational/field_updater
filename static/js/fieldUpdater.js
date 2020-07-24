@@ -63,8 +63,7 @@ export default function initialise(options) {
 
     // what happens when the delete button is clicked
     deleteElement.onclick = async function(e) {
-        let { ajaxDelete } = await import("./ajaxUpdate.js");
-        submit(() => { 
+        submit(() => {
             return ajaxDelete(options).then(() => {
                 current_value = null;
             }); 
@@ -80,8 +79,6 @@ export default function initialise(options) {
     }
 
     async function create_or_update(newValue) {
-        let { ajaxUpdate } = await import("./ajaxUpdate.js");
-
         const data = {};
         data[options.attribute_name] = newValue;
 
