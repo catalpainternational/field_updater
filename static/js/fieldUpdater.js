@@ -1,3 +1,5 @@
+import { ajaxDelete, ajaxUpdate } from "./ajaxUpdate.js";
+
 export default function initialise(options) {
     // gets a reference to the containing element for the component
     const containerElement = document.getElementById(options.prefix + '-' + options.instance_id);
