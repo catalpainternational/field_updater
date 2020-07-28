@@ -20,6 +20,9 @@ export default async function initialise(options) {
         ifUnmodifiedSince: options.if_unmodified_since,
         ifMatch: options.if_match,
         bodyEncode: options.bodyEncode,
+        customHeaders: {
+            'Accept': options.headersAccept,
+        },
     });
 
     // set the display back to default

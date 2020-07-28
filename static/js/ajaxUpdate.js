@@ -41,6 +41,7 @@ export default class AjaxUpdater {
             let { default:getCsrfToken } = await import('./getCsrfToken.js');
             let headers = {
                 'X-CSRFToken': getCsrfToken(),
+                ...this.options.customHeaders,
             }
             if(this.options.ifMatch) {
                 headers['If-Match'] = `"${this.options.ifMatch}"`;
