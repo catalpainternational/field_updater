@@ -1,6 +1,5 @@
 import uuid
 from django import template
-from django.urls import reverse
 
 register = template.Library()
 
@@ -11,6 +10,7 @@ def field_updater(
     if_match=False,                     # If-Match header will be sent with this value, unless False
     if_unmodified_since=False,          # If-Unmodified-Since header will be sent with this value unless False
     body_encode='form-data',            # the content encoding for POST bodies
+    empty_display='empty',              # the text displayed when the value is an empty string or none
     headers_accept='application/json',
     **kwargs):
     ''' Renders a value, on click it will render a form, on submit update that value by AJAX '''
@@ -39,6 +39,7 @@ def field_updater(
             'if_unmodified_since': if_unmodified_since,
             'bodyEncode': body_encode,
             'prefix': prefix,
+            'emptyDisplay': empty_display,
             'headersAccept': headers_accept,
         },
     }
