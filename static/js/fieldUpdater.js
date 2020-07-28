@@ -1,4 +1,4 @@
-export default function initialise(options) {
+export default async function initialise(options) {
     // gets a reference to the containing element for the component
     const containerElement = document.getElementById(options.prefix + '-' + options.instance_id);
 
@@ -12,8 +12,18 @@ export default function initialise(options) {
     const loaderElement = containerElement.querySelector('.' + options.prefix + '-loader');
     const errorElement = containerElement.querySelector('.' + options.prefix + '-error');
 
+    const { default: StorageHandler } = await import("./ajaxUpdate.js");
 
     let current_value = options.attribute_value;
+    const storage = new StorageHandler({
+        url: options.submit_url,
+        ifUnmodifiedSince: options.if_unmodified_since,
+        ifMatch: options.if_match,
+        bodyEncode: options.bodyEncode,
+        customHeaders: {
+            'Accept': options.headersAccept,
+        },
+    });
 
     // set the display back to default
     function updateDisplay() {
@@ -41,7 +51,6 @@ export default function initialise(options) {
         displayElement.hidden = false;
     };
     
-
     // handler to encapsulate an async submission action ( update or delete )
     function submit(action) {
         inputsElement.hidden = true;
@@ -61,30 +70,29 @@ export default function initialise(options) {
 
     // what happens when the delete button is clicked
     deleteElement.onclick = async function(e) {
-        let { ajaxDelete } = await import("./ajaxUpdate.js");
         submit(() => { 
-            return ajaxDelete(options).then(() => {
+            return storage.remove().then(() => {
                 current_value = null;
             }); 
         });
     };
 
     // what happens when the update button is clicked
-    submitElement.onclick = () => create_or_update(inputElement.value);
+    submitElement.onclick = () => updateOrCreate(inputElement.value);
 
     // what happens when a key is hit in the input
     inputElement.onkeyup = function(e) {
-        if (e.key === 'Enter') create_or_update(inputElement.value);
+        if (e.key === 'Enter') updateOrCreate(inputElement.value);
     }
 
-    async function create_or_update(newValue) {
+    async function updateOrCreate(newValue) {
         let { ajaxUpdate } = await import("./ajaxUpdate.js");
 
         const data = {};
         data[options.attribute_name] = newValue;
 
         submit(() => { 
-            return ajaxUpdate(data, options).then(() => {
+            return storage.updateOrCreate(data).then(() => {
                 current_value = newValue;
             }); 
         });
