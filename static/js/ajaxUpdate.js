@@ -1,6 +1,6 @@
 import getCsrfToken from './getCsrfToken.js';
 
-export function ajaxDelete(options) {
+export async function ajaxDelete(options) {
     const fetchInit = {
         method: 'DELETE',
         headers: {
@@ -10,11 +10,10 @@ export function ajaxDelete(options) {
     };
     return ajax(options.submit_url, fetchInit);
 }
-
-export function ajaxUpdate(data, options) {
+export async function ajaxUpdate(data, options) {
     const fetchInit = {
         method: 'POST',
-        headers: {
+         headers: {
             'X-CSRFToken': getCsrfToken(),
             'Accept': options.headersAccept,
         },
@@ -24,12 +23,20 @@ export function ajaxUpdate(data, options) {
 }
 
 async function ajax(url, fetchInit) {
-    const response = await fetch(url, fetchInit)
-        .then(res => res.json()) // pull out JSON from response returned
-        .then(json => console.log(json)) // json only returns {"status": "ok"} if all is well
-        .catch(err => console.log(err));
-
-    return response;
+    // make our request to udpate the value
+    return new Promise((resolve, reject) => {
+        fetch(url, fetchInit)
+            .then(function(response) {
+                // function that will run on promise resolve;
+                if(response.ok) {
+                    resolve(response.status, response);
+                } else {
+                    reject(response.statusText, response.status, response)
+                }
+            }).catch(function(err) {
+                reject(err.message, err)
+            });
+    });
 }
 
 function urlEncode(data) {
