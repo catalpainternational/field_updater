@@ -18,7 +18,7 @@ export default function initialise(options) {
     // set the display back to default
     function updateDisplay() {
         deleteElement.hidden = !options.allow_delete || current_value === null;
-        displayElement.innerHTML = current_value || 'empty';
+        displayElement.innerHTML = current_value || options.emptyDisplay;
     };
     updateDisplay();
 
