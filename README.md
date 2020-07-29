@@ -24,15 +24,15 @@ if your api returns a Location header the componenet will subequently use that a
 `{% field_updater submit_url=submit_url attribute_name=attribute_value %}`
 
 #### Optionally
-6. Pass instance specific options such as ifMatch or ifUnmodifiedSince to help prevent lost update issues
+6. Pass instance specific options such as if_match or if_unmodified_since to help prevent lost update issues
 
-The component will start sending ifMatch if your enpoint returns an ETag header, unless you pass ifMatch=False
+This will send If-Match or If-Unmodified-Since header with the value passed, enabling the endpoint to return status 412
+The component will start sending If-Match if your endpoint returns an ETag header, unless you pass if_match=False
+The component will start sending If-Unmodified-Since headers if you endpoint returns a Last-Modified header, unless you pass if_unmodified_since=False
 
-The component will start sending IfUnmodifiedSince headers if you endpoint returns a Last-Modified header, unless you pass IfUnmodifiedSince=False
+`{% field_updater submit_url=submit_url attribute_name=attribute_value if_match='an_etag' %}`
 
-`{% field_updater submit_url=submit_url attribute_name=attribute_value ifMatch='an_etag' %}`
-
-`{% field_updater submit_url=submit_url attribute_name=attribute_value ifUnmodifiedSince=last_modified %}`
+`{% field_updater submit_url=submit_url attribute_name=attribute_value if_unmodified_since=last_modified %}`
 
 7. Provide an options dictionary, the defaults are as follows and can all be overridden
 
