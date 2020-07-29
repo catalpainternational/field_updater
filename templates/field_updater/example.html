@@ -1,7 +1,66 @@
 {% load field_updater_tags %}
 <html>
     <body>
-        {% url 'example_submit' name="peter" as submit_url %}
-        {% field_updater override='yo' submit_url=submit_url|add:"?querykey="|add:"queryval" allow_delete=True empty_display='NO VALUE'%}
+        <section>
+            <h1>Field Updater Examples</h1>
+            <h2>simple use</h2>
+            <p>
+                Provide a submit url and a single key word argument<br />
+                Click the value to show an input, edit it aand submit
+                A POST request will be sent to the url with body form encoded <code>key=value</code>
+
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'example_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='value' %}
+                {% endverbatim %}
+            </div>
+            {% url 'example_submit' as submit_url %}
+            {% field_updater submit_url=submit_url  key='value' %}
+
+            <h2>input types</h2>
+            <p>
+                Provide an options dict containing <code>inputAttributes</code>a these attributes will be aplied to the input element displayed
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'example_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key=42 options=updater_options_number %}
+                {% endverbatim %}
+            </div>
+            {% url 'example_submit' as submit_url %}
+            {% field_updater submit_url=submit_url key=42 options=updater_options_number %}
+
+            <h2>allow deletion</h2>
+            <p>
+                Provide an options dict containing <code>allowDelete = True</code>
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'example_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='deleteable' options=updater_options_delete %}
+                {% endverbatim %}
+            </div>
+            {% url 'example_submit' as submit_url %}
+            {% field_updater submit_url=submit_url key='deleteable' options=updater_options_delete %}
+
+            <h2>sending custom headers</h2>
+            <p>
+            Provide an options dict containing <code>headers={'yourHeader':'yourHeaderValue'}</code>
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'example_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='headers' options=updater_options_headers %}
+                {% endverbatim %}
+            </div>
+            {% url 'example_submit' as submit_url %}
+            {% field_updater submit_url=submit_url key='headers' options=updater_options_headers %}
+        </section>
     </body>
 </html>
