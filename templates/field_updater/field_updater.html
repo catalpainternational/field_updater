@@ -11,40 +11,42 @@ You can override the css by providing this file in your project
 TODO: try to separate out the individual components for overriding
 TODO: consider other input types, textarea etc...
 {% endcomment %}
-<div class="{{ options.prefix }}" id="{{ options.prefix }}-{{ options.instance_id }}">
-    <a class="{{ options.prefix }}-display"></a>
-    <button type="button" class="{{ options.prefix }}-delete" hidden>
+<div class="{{ updater.options.prefix }}" id="{{ updater.options.prefix }}-{{ updater.instanceId }}">
+    <a class="{{ updater.options.prefix }}-display"></a>
+    <button type="button" class="{{ updater.options.prefix }}-delete" hidden>
         &#9988;
     </button>
-    <span class="{{ options.prefix }}-error" hidden></span>
-    <div class="{{ options.prefix }}-inputs" hidden>
-        <input type="text" class="{{ options.prefix }}-input">
-        <span class="{{ options.prefix }}-clear"></span>
-        <button type="submit" class="{{ options.prefix }}-submit">
+    <span class="{{ updater.options.prefix }}-error" hidden></span>
+    <div class="{{ updater.options.prefix }}-inputs" hidden>
+        <input
+            {% for key, value in updater.options.inputAttributes.items %} {{ key }}="{{ value }}" {% endfor %}
+            class="{{ updater.options.prefix }}-input" />
+        <span class="{{ updater.options.prefix }}-clear"></span>
+        <button type="submit" class="{{ updater.options.prefix }}-submit">
             &#10003;
         </button>
-        <button type="button" class="{{ options.prefix }}-cancel">
+        <button type="button" class="{{ updater.options.prefix }}-cancel">
             &#10005;
         </button>
     </div>
     {% comment %} 
     You can override the loader gif by providing this file in your project
     {% endcomment %}
-    <img class="{{ options.prefix }}-loader" src="{% static 'img/loading.gif' %}" hidden/>
+    <img class="{{ updater.options.prefix }}-loader" src="{% static 'img/loading.gif' %}" hidden/>
 </div>
 
-{% with "json-"|addstr:options.instance_id as jsonid %}
+{% with "json-"|addstr:updater.instanceId as jsonid %}
 
-{{ options|json_script:jsonid }}
+{{ updater|json_script:jsonid }}
 <script>
     (async () => {
-        const options = JSON.parse(document.getElementById('{{jsonid}}').textContent);
+        const updaterConfig = JSON.parse(document.getElementById('{{jsonid}}').textContent);
 
         {% comment %} 
         You can override the fieldUpdate code by providing this file in your project
         {% endcomment %}
         let { default:initialise } = await import("{% static 'js/fieldUpdater.js' %}");
-        initialise(options);
+        initialise(updaterConfig);
     })()
 </script>
 
