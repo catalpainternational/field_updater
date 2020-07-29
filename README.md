@@ -28,7 +28,7 @@ if your api returns a Location header the componenet will subequently use that a
 
 This will send If-Match or If-Unmodified-Since header with the value passed, enabling the endpoint to return status 412
 The component will start sending If-Match if your endpoint returns an ETag header, unless you pass if_match=False
-The component will start sending If-Unmodified-Since headers if you endpoint returns a Last-Modified header, unless you pass if_unmodified_since=False
+The component will start sending If-Unmodified-Since headers if your endpoint returns a Last-Modified header, unless you pass if_unmodified_since=False
 
 `{% field_updater submit_url=submit_url attribute_name=attribute_value if_match='an_etag' %}`
 
