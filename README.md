@@ -20,14 +20,13 @@ Using Django and raw js to begin with, server side will be provided by individua
 {% url 'submit_url_name' some_arg=some_value as submit_url %}
 
 `{% field_updater submit_url=submit_url attribute_name=attribute_value %}`
-`{% field_updater submit_url=submit_url attribute_name=attribute_value  allow_delete=True %}`
+`{% field_updater submit_url=submit_url attribute_name=attribute_value allow_delete=True %}`
 
 The initial value will be displayed, on clicking the display an update text input will show, edit the value and click the tick, and a POST request will be submitted to `submit_url with formencoded data of `attribute_name=attribute_value`
 
 If you specify `allow_delete=True` it will allow the user to click to send a DELETE request when the current value is not `null`
-
-If you specify `etag=some_etag_value` it will send that value as an `If-Match` header
-If you specify `last_modified=some_http_date` it will send that value as 'If-Unmodified-Since' header
+If you specify `if_match=some_etag_value` it will send that value as an `If-Match` header
+If you specify `if_unmodified_since=some_http_date` it will send that value as `If-Unmodified-Since` header
 
 ## Possible future
 
