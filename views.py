@@ -25,6 +25,12 @@ class ExampleView(TemplateView):
         context['updater_options_headers'] = dict(
             headers=dict(yourHeader='yourHeaderValue'),
         )
+        context['updater_options_regex'] = dict(
+            inputAttributes=dict(
+                type='text',
+                pattern="[\w]{3}",
+                title='3 word characters'),
+        )
         return context
 
 

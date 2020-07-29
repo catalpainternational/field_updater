@@ -17,7 +17,7 @@ TODO: consider other input types, textarea etc...
         &#9988;
     </button>
     <span class="{{ updater.options.prefix }}-error" hidden></span>
-    <div class="{{ updater.options.prefix }}-inputs" hidden>
+    <form class="{{ updater.options.prefix }}-form" hidden>
         <input
             {% for key, value in updater.options.inputAttributes.items %} {{ key }}="{{ value }}" {% endfor %}
             class="{{ updater.options.prefix }}-input" />
@@ -28,7 +28,7 @@ TODO: consider other input types, textarea etc...
         <button type="button" class="{{ updater.options.prefix }}-cancel">
             &#10005;
         </button>
-    </div>
+    </form>
     {% comment %} 
     You can override the loader gif by providing this file in your project
     {% endcomment %}

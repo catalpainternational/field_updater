@@ -4,7 +4,7 @@ export default async function initialise(config) {
 
     // gets references to internal elements
     const displayElement = containerElement.querySelector('.' + config.options.prefix + '-display');
-    const inputsElement = containerElement.querySelector('.' + config.options.prefix + '-inputs');
+    const formElement = containerElement.querySelector('.' + config.options.prefix + '-form');
     const inputElement = containerElement.querySelector('.' + config.options.prefix + '-input');
     const submitElement = containerElement.querySelector('.' + config.options.prefix + '-submit');
     const cancelElement = containerElement.querySelector('.' + config.options.prefix + '-cancel');
@@ -34,7 +34,7 @@ export default async function initialise(config) {
     displayElement.onclick = function(e) {
         // show and update the input elements
         inputElement.value = currentValue;
-        inputsElement.hidden = false;
+        formElement.hidden = false;
         // hide the display elements
         displayElement.hidden = true;
         errorElement.hidden = true;
@@ -45,13 +45,13 @@ export default async function initialise(config) {
 
     // what happens whaen the edit cancel button is clicked
     cancelElement.onclick = function(e) {
-        inputsElement.hidden = true;
+        formElement.hidden = true;
         displayElement.hidden = false;
     };
     
     // handler to encapsulate an async submission action ( update or delete )
     function submit(action) {
-        inputsElement.hidden = true;
+        formElement.hidden = true;
         loaderElement.hidden = false;
 
         action().then(() => {
@@ -60,7 +60,7 @@ export default async function initialise(config) {
             errorElement.innerHTML = err;
             errorElement.hidden = false;
         }).finally(() => {
-            inputsElement.hidden = true;
+            formElement.hidden = true;
             displayElement.hidden = false;
             loaderElement.hidden = true;
         });
@@ -76,7 +76,10 @@ export default async function initialise(config) {
     };
 
     // what happens when the update button is clicked
-    submitElement.onclick = () => updateOrCreate(inputElement.value);
+    submitElement.onclick = (e) => {
+        e.preventDefault();
+        updateOrCreate(inputElement.value);
+    }
 
     // what happens when a key is hit in the input
     inputElement.onkeyup = function(e) {
@@ -84,15 +87,17 @@ export default async function initialise(config) {
     }
 
     async function updateOrCreate(newValue) {
-        let { ajaxUpdate } = await import("./ajaxUpdate.js");
+        if (formElement.reportValidity()) {
+            let { ajaxUpdate } = await import("./ajaxUpdate.js");
 
-        const data = {};
-        data[config.attributeName] = newValue;
+            const data = {};
+            data[config.attributeName] = newValue;
 
-        submit(() => { 
-            return storage.updateOrCreate(data).then(() => {
-                currentValue = newValue;
-            }); 
-        });
+            submit(() => {
+                return storage.updateOrCreate(data).then(() => {
+                    currentValue = newValue;
+                });
+            });
+        }
     }
 };

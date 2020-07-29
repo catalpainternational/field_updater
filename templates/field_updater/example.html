@@ -1,12 +1,21 @@
 {% load field_updater_tags %}
 <html>
+    <head>
+        <style>
+        .code {
+            background-color: lightgray;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        </style>
+    </head>
     <body>
         <section>
             <h1>Field Updater Examples</h1>
             <h2>simple use</h2>
             <p>
                 Provide a submit url and a single key word argument<br />
-                Click the value to show an input, edit it aand submit
+                Click the value to show an input, edit it and submit
                 A POST request will be sent to the url with body form encoded <code>key=value</code>
 
             </p>
@@ -22,7 +31,8 @@
 
             <h2>input types</h2>
             <p>
-                Provide an options dict containing <code>inputAttributes</code>a these attributes will be aplied to the input element displayed
+            Provide an options dict containing <code>inputAttributes</code> which will be set on the input element displayed</br />
+            context['updater_options_number'] = {{ updater_options_number|to_str}}
             </p>
             <div class="code">
                 {% verbatim %}
@@ -36,7 +46,8 @@
 
             <h2>allow deletion</h2>
             <p>
-                Provide an options dict containing <code>allowDelete = True</code>
+            Provide an options dict containing <code>allowDelete = True</code><br />
+            context['updater_options_delete'] = {{ updater_options_delete|to_str}}
             </p>
             <div class="code">
                 {% verbatim %}
@@ -50,7 +61,8 @@
 
             <h2>sending custom headers</h2>
             <p>
-            Provide an options dict containing <code>headers={'yourHeader':'yourHeaderValue'}</code>
+            Provide an options dict defining a headers dict<br />
+            context['updater_options_headers'] = {{ updater_options_headers|to_str}}
             </p>
             <div class="code">
                 {% verbatim %}
@@ -61,6 +73,21 @@
             </div>
             {% url 'example_submit' as submit_url %}
             {% field_updater submit_url=submit_url key='headers' options=updater_options_headers %}
+
+            <h2>Regex validation</h2>
+            <p>
+            Provide an options dict containing inputAttributes<br />
+            context['updater_options_regex'] = {{ updater_options_regex|to_str}}
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'example_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='headers' options=updater_options_regex %}
+                {% endverbatim %}
+            </div>
+            {% url 'example_submit' as submit_url %}
+            {% field_updater submit_url=submit_url key='headers' options=updater_options_regex %}
         </section>
     </body>
 </html>
