@@ -57,3 +57,8 @@ def validate_options(options):
 def addstr(arg1, arg2):
     """concatenate arg1 & arg2"""
     return str(arg1) + str(arg2)
+
+@register.filter
+def to_str(arg):
+    """ just str it for display """
+    return str(arg)
