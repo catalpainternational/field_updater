@@ -1,5 +1,6 @@
 import uuid
 from django import template
+from django.utils.http import quote_etag
 
 register = template.Library()
 
@@ -41,7 +42,7 @@ def field_updater(
             'submitUrl': submit_url,
             'attributeName': attribute_name,
             'attributeValue': attribute_value,
-            'ifMatch': if_match,
+            'ifMatch': quote_etag(if_match) if if_match else if_match,
             'ifUnmodifiedSince': if_unmodified_since,
             'options': updater_options,
         },

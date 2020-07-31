@@ -44,7 +44,7 @@ export default class AjaxUpdater {
                 ...this.options.customHeaders,
             }
             if(this.options.ifMatch) {
-                headers['If-Match'] = `"${this.options.ifMatch}"`;
+                headers['If-Match'] = this.options.ifMatch;
             }
             if(this.options.ifUnmodifiedSince) {
                 headers['If-Unmodified-Since'] = this.options.ifUnmodifiedSince;
