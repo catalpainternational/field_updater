@@ -88,6 +88,20 @@
             </div>
             {% url 'example_submit' as submit_url %}
             {% field_updater submit_url=submit_url key='headers' options=updater_options_regex %}
+
+            <h2>If-Match</h2>
+            <p>
+            Provide an if_match value to send an If-Match ETag value <br />
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'example_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='if-match' if_match='sdasdasdasd' %}
+                {% endverbatim %}
+            </div>
+            {% url 'example_submit' as submit_url %}
+            {% field_updater submit_url=submit_url  key='if-match' if_match='sdasdasdasd' %}
         </section>
     </body>
 </html>
