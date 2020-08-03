@@ -51,17 +51,23 @@ export default async function initialise(config) {
     
     // handler to encapsulate an async submission action ( update or delete )
     function submit(action) {
-        formElement.hidden = true;
+        deleteElement.hidden = true;
+        submitElement.hidden = true;
         loaderElement.hidden = false;
 
         action().then(() => {
             updateDisplay();
-        }).catch((err) => {
-            errorElement.innerHTML = err;
-            errorElement.hidden = false;
-        }).finally(() => {
-            formElement.hidden = true;
             displayElement.hidden = false;
+            formElement.hidden = true;
+        }).catch((errorCode) => {
+            if (config.options.errors.hasOwnProperty(errorCode)) {
+                inputElement.setCustomValidity(config.options.errors[errorCode]);
+            } else {
+                inputElement.setCustomValidity(config.options.errors['unknown']);
+            }
+            formElement.reportValidity();
+        }).finally(() => {
+            submitElement.hidden = false;
             loaderElement.hidden = true;
         });
     }
@@ -83,6 +89,7 @@ export default async function initialise(config) {
 
     // what happens when a key is hit in the input
     inputElement.onkeyup = function(e) {
+        inputElement.setCustomValidity('');
         if (e.key === 'Enter') updateOrCreate(inputElement.value);
     }
 

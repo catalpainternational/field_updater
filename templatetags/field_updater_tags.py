@@ -29,8 +29,23 @@ def field_updater(
         'inputAttributes': {            # input attributes
             'type': 'text',
         },
+        'errors': {                     # errors to display keyed by HTTP status code
+            412: 'The data has been updated on the server, refresh your page to check the current value',
+            401: 'Unauthenticated: Please login',
+            403: 'Unauthorized: You may not have permission to change this data',
+            'unknown': 'Sorry there has been an unforeseen error updating this data',
+        },
     }
-    updater_options = dict(default_options, **options) if options else default_options
+
+    # build field updater options
+    updater_options = dict(default_options)
+    if options:
+        for key, value in options.items():
+            if key != 'errors':
+                updater_options[key] = value
+        errors = options.get('errors', {});
+        for key, value in errors.items():
+            updater_options['errors'][key] = value
 
     validate_options(updater_options)
 

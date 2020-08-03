@@ -38,6 +38,12 @@ class ExampleView(TemplateView):
                 pattern="[\w]{3}",
                 title='3 word characters'),
         )
+        context['updater_options_errors'] = dict(
+            headers={'Catalpa-FieldUpdater-Fake': 401},
+            errors={
+                401: 'Your custom Error',
+            }
+        )
         return context
 
 
@@ -102,3 +108,9 @@ class CacheSubmitView(LoggingSubmitView):
         response["ETag"] = quote_etag(store['etag'])
         response["Last-Modified"] = http_date(store['modified'])
         return response
+
+
+class FakingSubmitView(LoggingSubmitView):
+    ''' will return 200 to all requests unless header 'Catalpa-FieldUpdater-Fake' is set with a desired status code '''
+    def dispatch(self, request, *args, **kwargs):
+        return HttpResponse(status=request.META.get('HTTP_CATALPA_FIELDUPDATER_FAKE', 200))
