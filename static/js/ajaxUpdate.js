@@ -68,16 +68,21 @@ export default class AjaxUpdater {
     }
 
     updateFetchOptions(headers) {
-        if (options.ifMatch !== false) {
+        if (this.options.ifMatch !== false) {
             if (headers.has('ETag')) {
                 this.options.ifMatch = headers.get('ETag');
             } else {
                 this.options.ifMatch = null;
             }
         }
-        if (headers.has('Last-Modified') && this.options.ifUnmodifiedSince !== false) {
-            this.options.ifUnmodifiedSince = headers.get('Last-Modified');
+        if (this.options.ifUnmodifiedSince !== false) {
+            if (headers.has('Last-Modified')) {
+                this.options.ifUnmodifiedSince = headers.get('Last-Modified');
+            } else {
+                this.options.ifUnmodifiedSince = null;
+            }
         }
+
         if (headers.has('Location')) {
             this.options.url = headers.get('Location');
         }
