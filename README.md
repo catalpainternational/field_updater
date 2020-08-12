@@ -46,10 +46,16 @@ The component will start sending If-Unmodified-Since headers if your endpoint re
         'inputAttributes': {            # input attributes
             'type': 'text',             # only text and number supported
         },
+        'errors': {                     # errors to display keyed by HTTP status code
+            412: 'The data has been updated on the server, refresh your page to check the current value',
+            401: 'Unauthenticated: Please login',
+            403: 'Unauthorized: You may not have permission to change this data',
+            'unknown': 'Sorry there has been an unforeseen error updating this data',
+        },
     }
 ```
 
-example of overriding to set number input type and an Accept header
+example of overriding to set number input type, an Accept header, and a custom error
 ```
 # in your view
     def get_context_data(self, **kwargs):
@@ -58,6 +64,7 @@ example of overriding to set number input type and an Accept header
         context['updater_options'] = dict(
             inputAttributes=dict(type='number'),
             headers=dict(yourHeader='yourHeaderValue'),
+            errors=dict(401='Please login!'),
         )
         return context
 # in your template

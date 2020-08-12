@@ -55,14 +55,15 @@ export default class AjaxUpdater {
             ).then(function(response) {
                 // update the internal options
                 self.updateFetchOptions(response.headers);
-
                 if(response.ok) {
-                    resolve(response.status, response);
+                    resolve(response.status);
                 } else {
-                    reject(response.statusText, response.status, response)
+                    reject(response.status)
                 }
             }).catch(function(err) {
-                reject(err.message, err)
+                // 598 (Informal convention) Network read timeout error
+                // used here to indicate generic failure
+                reject(598)
             });
         });
     }

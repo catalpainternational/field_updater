@@ -1,11 +1,15 @@
 from django.urls import path
-from .views import LoggingSubmitView, ExampleView
+from .views import FakingSubmitView, CacheSubmitView, ExampleView
 
 urlpatterns = [
-    # an example endpoint to demonstrate component use
+    # example endpoint to demonstrate component use
     path('', ExampleView.as_view()),
-    # a simple example submit endpoint that returns 200 ok
-    path('example_submit', LoggingSubmitView.as_view(), name='example_submit'),
-    # an example submit endpoint with a parameter that returns 200 ok
-    path('example_submit/<name>/', LoggingSubmitView.as_view(), name='example_submit'),
+
+    # submit endpoint that uses the fieldupdater cache
+    path('cache_submit', CacheSubmitView.as_view(), name='cache_submit'),
+    path('cache_submit/<name>/', CacheSubmitView.as_view(), name='cache_submit'),
+
+    # submit endpoint that will  do nothing but
+    # return any status you put in Catalpa-FieldUpdater-Fake header
+    path('fake_submit', FakingSubmitView.as_view(), name='faking_submit'),
 ]

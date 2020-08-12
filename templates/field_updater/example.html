@@ -21,12 +21,12 @@
             </p>
             <div class="code">
                 {% verbatim %}
-                {% url 'example_submit' as submit_url %}
+                {% url 'cache_submit' as submit_url %}
                 <br />
                 {% field_updater submit_url=submit_url  key='value' %}
                 {% endverbatim %}
             </div>
-            {% url 'example_submit' as submit_url %}
+            {% url 'cache_submit' as submit_url %}
             {% field_updater submit_url=submit_url  key='value' %}
 
             <h2>input types</h2>
@@ -36,12 +36,12 @@
             </p>
             <div class="code">
                 {% verbatim %}
-                {% url 'example_submit' as submit_url %}
+                {% url 'cache_submit' as submit_url %}
                 <br />
                 {% field_updater submit_url=submit_url  key=42 options=updater_options_number %}
                 {% endverbatim %}
             </div>
-            {% url 'example_submit' as submit_url %}
+            {% url 'cache_submit' as submit_url %}
             {% field_updater submit_url=submit_url key=42 options=updater_options_number %}
 
             <h2>allow deletion</h2>
@@ -51,12 +51,12 @@
             </p>
             <div class="code">
                 {% verbatim %}
-                {% url 'example_submit' as submit_url %}
+                {% url 'cache_submit' as submit_url %}
                 <br />
                 {% field_updater submit_url=submit_url  key='deleteable' options=updater_options_delete %}
                 {% endverbatim %}
             </div>
-            {% url 'example_submit' as submit_url %}
+            {% url 'cache_submit' as submit_url %}
             {% field_updater submit_url=submit_url key='deleteable' options=updater_options_delete %}
 
             <h2>sending custom headers</h2>
@@ -66,12 +66,12 @@
             </p>
             <div class="code">
                 {% verbatim %}
-                {% url 'example_submit' as submit_url %}
+                {% url 'cache_submit' as submit_url %}
                 <br />
                 {% field_updater submit_url=submit_url  key='headers' options=updater_options_headers %}
                 {% endverbatim %}
             </div>
-            {% url 'example_submit' as submit_url %}
+            {% url 'cache_submit' as submit_url %}
             {% field_updater submit_url=submit_url key='headers' options=updater_options_headers %}
 
             <h2>Regex validation</h2>
@@ -81,13 +81,42 @@
             </p>
             <div class="code">
                 {% verbatim %}
-                {% url 'example_submit' as submit_url %}
+                {% url 'cache_submit' as submit_url %}
                 <br />
                 {% field_updater submit_url=submit_url  key='headers' options=updater_options_regex %}
                 {% endverbatim %}
             </div>
-            {% url 'example_submit' as submit_url %}
+            {% url 'cache_submit' as submit_url %}
             {% field_updater submit_url=submit_url key='headers' options=updater_options_regex %}
+
+            <h2>If-Match</h2>
+            <p>
+            Provide an if_match value to send an If-Match ETag value <br />
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'cache_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='if-match' if_match='sdasdasdasd' %}
+                {% endverbatim %}
+            </div>
+            {% url 'cache_submit' as submit_url %}
+            {% field_updater submit_url=submit_url  key='if-match' if_match='sdasdasdasd' %}
+
+            <h2>Error messages</h2>
+            <p>
+            Provide an options dict containing errors<br />
+            context['updater_options_errors'] = {{ updater_options_errors|to_str}}
+            </p>
+            <div class="code">
+                {% verbatim %}
+                {% url 'faking_submit' as submit_url %}
+                <br />
+                {% field_updater submit_url=submit_url  key='will error' options=updater_options_errors %}
+                {% endverbatim %}
+            </div>
+            {% url 'faking_submit' as submit_url %}
+            {% field_updater submit_url=submit_url  key='will error' options=updater_options_errors %}
         </section>
     </body>
 </html>
